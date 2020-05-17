@@ -108,9 +108,14 @@ def raw_data(df):
         print(df[start:stop])
         resp = input("\nWould you like to see the next five rows of raw data?\n").lower()
         if resp == "yes":
-            start = stop
-            # make sure stop doesn't go beyond the the number of rows in the df
-            stop = (stop + 5) if (stop + 5) < numrows else (numrows + 1)
+            # prevent array out of bounds
+            if stop <= (numrows - 5):
+                start = stop
+                stop = (stop + 5) if (stop + 5) <= numrows else numrows
+            else:
+                print("\nHere are the final ten rows of data:\n")
+                print(df[numrows-10:numrows])
+                break
         elif resp == "no":
             break
         else:
