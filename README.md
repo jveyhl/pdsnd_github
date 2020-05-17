@@ -22,3 +22,6 @@ chicago.csv
 ### Credits
 Project forked from: https://github.com/udacity/pdsnd_github.git
 The Bike Share project was created by Udacity and can be found at https://www.udacity.com/course/programming-for-data-science-nanodegree--nd104
+
+### Special Note
+Udacity is cool.
