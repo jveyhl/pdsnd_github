@@ -16,10 +16,10 @@ def get_filters():
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
     print('Hello! Let\'s explore some US bikeshare data!')
-    
+
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     cities = ["chicago", "new york city", "washington"]
-    
+
     while True:
         try:
             x = input("Enter chicago, new york city or washington: ")
@@ -32,13 +32,13 @@ def get_filters():
 
     # get user input for month (all, january, february, ... , june)
     months = ['january', 'february', 'march', 'april', 'may', 'june']
-    
+
     while True:
         try:
             month = input("Enter all, january, february, march, april, may or june: ")
             # filter by month if applicable
             if month != "all":
-                # use the index of the months list to get the corresponding int; in df jan = 1...jun = 6              
+                # use the index of the months list to get the corresponding int; in df jan = 1...jun = 6
                 month = months.index(month)+1
                 break
             elif month == "all":
@@ -48,7 +48,7 @@ def get_filters():
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
     days = ["all", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    
+
     while True:
         try:
             day = input("Enter all, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday or Sunday: ")
@@ -93,8 +93,28 @@ def load_data(city, month, day):
     if day != 'all':
         # filter by day of week to create the new dataframe
         df = df[df['day_of_week']==day]
-    
+
     return df
+
+
+def raw_data(df):
+    """Asks the user if they would like to see five rows of raw data at a time."""
+
+    resp = input("\nWould you like to see the first five rows of raw data?\nEnter yes or no.\n").lower()
+    start = 0
+    stop = 5
+    numrows = df.shape[0]
+    while resp == "yes":
+        print(df[start:stop])
+        resp = input("\nWould you like to see the next five rows of raw data?\n").lower()
+        if resp == "yes":
+            start = stop
+            # make sure stop doesn't go beyond the the number of rows in the df
+            stop = (stop + 5) if (stop + 5) < numrows else (numrows + 1)
+        elif resp == "no":
+            break
+        else:
+            resp = input("\nInvalid input; please enter yes or no.\n").lower()
 
 
 def time_stats(df):
@@ -118,7 +138,7 @@ def time_stats(df):
     # find the most popular hour
     pophour = df['hour'].mode()[0]
     print('Most frequent start hour:', pophour)
- 
+
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -196,6 +216,7 @@ def main():
         city, month, day = get_filters()
         df = load_data(city, month, day)
 
+        raw_data(df)
         time_stats(df)
         station_stats(df)
         trip_duration_stats(df)
@@ -210,4 +231,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
